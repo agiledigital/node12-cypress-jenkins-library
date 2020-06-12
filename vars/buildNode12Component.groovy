@@ -48,7 +48,7 @@ def call(Map config) {
           "REACT_APP_AWS_COGNITO_AUTH_CALLBACK_URL=http://localhost:3000",
           "REACT_APP_VERSION=${config.buildNumber}"
         ]) {
-          npm 'test'
+          npm 'unit-test'
           publishHTML (target: [
             allowMissing: false,
             alwaysLinkToLastBuild: false,
