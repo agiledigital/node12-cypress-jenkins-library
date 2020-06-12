@@ -49,6 +49,9 @@ def call(Map config) {
           "REACT_APP_VERSION=${config.buildNumber}"
         ]) {
           npm 'unit-test'
+        }
+       if (env.BRANCH_NAME == "develop") {
+         npm 'test'
           publishHTML (target: [
             allowMissing: false,
             alwaysLinkToLastBuild: false,
@@ -57,7 +60,8 @@ def call(Map config) {
             reportFiles: 'index.html',
             reportName: "Coverage Report"
           ])
-        }
+      }
+
       }
     } catch (e) {
       echo "Archiving E2E test videos"
