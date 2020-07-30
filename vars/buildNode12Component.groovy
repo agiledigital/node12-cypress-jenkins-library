@@ -24,6 +24,7 @@ def call(Map config) {
     }
 
     stage('Install dependencies') {
+      // Install project in clean slate
       npm "ci"
     }
 
@@ -48,7 +49,11 @@ def call(Map config) {
           "REACT_APP_AWS_COGNITO_AUTH_CALLBACK_URL=http://localhost:3000",
           "REACT_APP_VERSION=${config.buildNumber}"
         ]) {
-          npm 'test'
+          npm 'run lint'
+          npm 'run unit-test'
+          if(config.stage == 'dist') {
+            npm 'run e2e-test'
+          }
           publishHTML (target: [
             allowMissing: false,
             alwaysLinkToLastBuild: false,
@@ -90,6 +95,7 @@ def call(Map config) {
       stage('Package') {
         sh "mkdir -p ${artifactDir}"
 
+        // install project in clean slate
         npm "ci --production --ignore-scripts --prefer-offline"
         sh "mv ${config.baseDir}/node_modules ${config.baseDir}/package.json ${artifactDir}"
 
