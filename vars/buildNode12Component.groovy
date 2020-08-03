@@ -73,8 +73,16 @@ def call(Map config) {
       }
 
       def integrationTestTarName = "${config.project}-${config.component}-${config.buildNumber}-e2e.tar.gz"
+
       sh "tar -czf \"${integrationTestTarName}\" -C \"${testVideoOutput}\" ."
-      archiveArtifacts integrationTestTarName
+      
+      // Upload artifact to S3 bucket.
+      s3Upload(
+        bucket: "${config.archiveDir}",
+        path: "${config.project}/${config.branchName}/${config.buildNumber}/",
+        file: integrationTestTarName
+        )
+      
       
       currentBuild.result = 'FAILED'
       
