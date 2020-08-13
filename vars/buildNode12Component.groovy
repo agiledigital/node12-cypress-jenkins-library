@@ -16,7 +16,7 @@ def call(Map config) {
     }
   }
   
-  container("node12-builder") {
+  container("node12-builder-big") {
 
     stage('Build Details') {
       echo "Project:   ${config.project}"
