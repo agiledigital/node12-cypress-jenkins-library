@@ -5,8 +5,8 @@ def call() {
       image: 'cypress/base:12.14.0',
       alwaysPullImage: true,
       command: 'cat',
-      resourceRequestCpu: '3000m',
-      resourceLimitCpu: '4000m',
+      resourceRequestCpu: '2',
+      resourceLimitCpu: '4',
       ttyEnabled: true
     )
   ]
